@@ -20,12 +20,11 @@ syn keyword adeptConditional if else
 
 syn keyword adeptType Array
 syn keyword adeptType bool byte
-syn keyword adeptType false
 syn keyword adeptType int
 syn keyword adeptType long
 syn keyword adeptType null
 syn keyword adeptType string
-syn keyword adeptType void true
+syn keyword Boolean void true false
 
 syn match adeptOperator "\v\-\>"
 syn match adeptOperator "\v\=\>"

@@ -7,7 +7,7 @@ syntax keyword adeptKeyword each else enum external fallthrough for foreign func
 syntax keyword adeptKeyword if import in inout new or out packed private public repeat return
 syntax keyword adeptKeyword sizeof static stdcall struct switch typeinfo unless until while
 syntax keyword adeptKeyword va_start va_end va_copy va_arg verbatim void union exhaustive
-syntax keyword adeptKeyword const define namespace using implicit pragma elif llvm_asm embed
+syntax keyword adeptKeyword const define namespace using implicit pragma elif llvm_asm embed assert
 syntax keyword adeptKeyword typenameof alignof record constructor class virtual override
 highlight link adeptKeyword Keyword
 
@@ -19,8 +19,7 @@ highlight link adeptCommonType adeptType
 syntax keyword adeptCommonName true false null undef it idx
 highlight link adeptCommonName Boolean
 
-"syntax match adeptOperator "\v([^a-zA-Z_0-9]\zs(::|:)\ze)"
-"highlight link adeptOperator Operator
+"syntax match Operator "\v([^a-zA-Z_0-9]\zs(::|:)\ze)"
 
 syn match PreProc        '[@]'
 syn match adeptSymbol    '[,;]'
@@ -36,9 +35,11 @@ syn match adeptThis     '\(\w\)\@<!this\(\w\)\@!'
 syn match adeptType     "\w\(\w\)*\s*\ze\(<.*>\s*\)*::[^<]"
 syn match Repeat        "\([^\.]\.\|\\\)\@<=\w\w*"
 syn match adeptFunc     "\w\w*\s*\ze\(\[.*\]\)*\s*("
+syn match adeptType     "\(\($\W*\)\)\@<=\w\w*\s*"
+syn match adeptType     "\(\(^\s\+\w\w*\s*\(\(<.*>\)\|\(\[.*\]\)\)*\s\+\)\)\@<=\w\w*\s*$"
 
-syn match PreProc       '\(^\s*\[\s*\)\@<=\w\w*\ze\s*.*\]'
-syn match adeptType     '\(\(\w\w*\)\s*\)\@<!\(\**\w\w*\s\(<*\**$*#*\)\|\(<.*>\)\|\(\[.*\]\)\)\@<=\(\s*\w\w*\s*\)'
+syn match adeptType     '\(\(\w\w*\)\s*\)\@<!\(\**\w\w*\s\+\(<*\**\($\(\w\~\)*\)*#*\)\|\(<.*>\)\|\(\[.*\]\)\)\@<=\(\s*\w\w*\s*\)'
+syn match SpecialComment '\s*\(\w\)\@<!__[0-9a-zA-Z]\w*[0-9a-zA-Z]__\(\w\)\@!\s*'
 
 syn match adeptTypedef contains=adeptTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match adeptFunc    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
@@ -47,8 +48,8 @@ syn keyword adeptKeyword union nextgroup=adeptType skipwhite skipempty contained
 hi def link adeptTypedef Identifier
 
 highlight link adeptPreprocessor Preproc
-syn match adeptPreprocessor   "#\w[0-9a-zA-Z_]*"
-syn match SpecialComment    "\(#\w[0-9a-zA-Z_ !]*\)\@<=\(\w\w*\)"
+syn match adeptPreprocessor   "[^$]#\w[0-9a-zA-Z_]*"
+syn match SpecialComment    "\([^$]#\w[0-9a-zA-Z_ !]*\)\@<=\(\w\w*\)"
 
 syntax region adeptString start=/\v"/ skip=/\v\\./ end=/\v"/
 syntax region adeptString start=/\v'/ skip=/\v\\./ end=/\v'(ub)?/

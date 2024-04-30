@@ -29,21 +29,19 @@ hi def adeptSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link adeptFunc Function
 hi def adeptType ctermfg=DarkCyan guifg=DarkCyan
 hi def adeptThis ctermfg=DarkMagenta guifg=DarkMagenta
-"syn match adeptType     '\(\**\w\w*\s\+\(\(<.*>\)\|\(\[.*\]\)\)*\s*\**\)\@<=\w\+s*\(["'a-zA-Z0-9]\)\@!'
-syn match adeptType     '\(\**\w\w*\s\+\(\(<.*>\)\|\(\[.*\]\)\)*\s*\**\)\@<=\w\w*\s*'
-syn match void     '\(\w\w*\s\+\**\)\@<=\w\w*\s*\ze[a-zA-Z0-9\.\[\]<> ]\{-}{'
-syn match adeptType     '\(<.*\)\@<=\w\w*\(>\)\@='
-syn match void     '\(\[\)\@<=\w\w*\(.*\]\)\@='
+"syn match adeptType     '\(\**\w\w*\s\+\(\(<.*>\)\|\(\[.*\]\)\)*\s*\**\)\@<=\w\w*\s*'
+"syn match void     '\(\w\w*\s\+\**\)\@<=\w\w*\s*\ze\(\([a-zA-Z0-9\._]\)\|\(<.*>\)\|\(\[.*\]\)\)*\s*\({\)'
+"syn match adeptType     "\()\s*\(\(<.*>\)\|\(\[.*\]\)\)*\**\s*\)\@<=\w\w*\s*\ze{*\s*$"
+"syn match adeptType     "\(\([$#~]\+\w*[$#~]*\)\)\@<=\w\w*\s*"
+"syn match SpecialComment '\s*\(\w\)\@<!__[0-9a-zA-Z]\w*[0-9a-zA-Z]__\(\w\)\@!\s*'
+"syn match SpecialComment '\(^import\s\+\)\@<=\(\w\w*\)'
+"syn match adeptType     '\(<.*\)\@<=\w\w*\(>\)\@='
+"syn match void          '\(\[*\)\@<=\w\w*\(\[*.*\]\)\@='
 
 syn match adeptThis     '\(\w\)\@<!this\(\w\)\@!'
 syn match adeptType     "\w\(\w\)*\s*\ze\(<.*>\s*\)*::[^<]"
 syn match Repeat        "\([^\.]\.\|\\\)\@<=\w\w*"
 syn match adeptFunc     "\w\w*\s*\ze\(\[.*\]\)*\s*("
-syn match adeptType     "\()\s*\(\(<.*>\)\|\(\[.*\]\)\)*\**\s*\)\@<=\w\w*\s*\ze{*\s*$"
-syn match adeptType     "\(\([$#~]\+\w*[$#~]*\)\)\@<=\w\w*\s*"
-syn match SpecialComment '\s*\(\w\)\@<!__[0-9a-zA-Z]\w*[0-9a-zA-Z]__\(\w\)\@!\s*'
-
-syn match SpecialComment '\(^import\s\+\)\@<=\(\w\w*\)'
 
 syn match adeptTypedef contains=adeptTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match adeptFunc    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
@@ -52,8 +50,11 @@ syn keyword adeptKeyword union nextgroup=adeptType skipwhite skipempty contained
 hi def link adeptTypedef Identifier
 
 highlight link adeptPreprocessor Preproc
-syn match adeptPreprocessor   "[^$]*#\w[0-9a-zA-Z_]*"
-syn match SpecialComment    "\([^$]*#\w[0-9a-zA-Z_ !]*\)\@<=\(\w\w*\)"
+syn match adeptPreprocessor   "#\w[0-9a-zA-Z_]*"
+syn match SpecialComment    "\(#\w[0-9a-zA-Z_ !]*\)\@<=\(\w\w*\)"
+
+syntax match adeptNumber "\v<((0x[0-9A-Fa-f]+)|(([0-9]+(\.[0-9]+)?)(e-?[0-9]*)?))(u|s|ub|sb|us|ss|ui|si|ul|sl|uz|f|d)?>"
+highlight link adeptNumber Number
 
 syntax region adeptString start=/\v"/ skip=/\v\\./ end=/\v"/
 syntax region adeptString start=/\v'/ skip=/\v\\./ end=/\v'(ub)?/
@@ -65,8 +66,4 @@ highlight link adeptLineComment Comment
 syntax region adeptBlockComment start=/\V\/*/ end=/\V*\//
 highlight link adeptBlockComment Comment
 
-syntax match adeptNumber "\v<((0x[0-9A-Fa-f]+)|(([0-9]+(\.[0-9]+)?)(e-?[0-9]*)?))(u|s|ub|sb|us|ss|ui|si|ul|sl|uz|f|d)?>"
-highlight link adeptNumber Number
-
-"\(\(<.*>\)\|\(\[.*\]\)\)*
 let b:current_syntax = "adept"

@@ -39,8 +39,8 @@ hi def adeptThis ctermfg=DarkMagenta guifg=DarkMagenta
 "syn match void          '\(\[*\)\@<=\w\w*\(\[*.*\]\)\@='
 
 syn match adeptThis     '\(\w\)\@<!this\(\w\)\@!'
-syn match adeptType     "\w\(\w\)*\s*\ze\(<.*>\s*\)*::[^<]"
-syn match Repeat        "\([^\.]\.\|\\\)\@<=\w\w*"
+syn match adeptType     "\w\(\w\)*\s*\ze\(<.*>\s*\)*\(:\{1,2}\|\\\)[^:\\]"
+syn match Repeat        "\([^\.\\:]\(\.\|\\\|:\{1,2}\)\)\@<=\w\w*"
 syn match adeptFunc     "\w\w*\s*\ze\(\[.*\]\)*\s*("
 
 syn match adeptTypedef contains=adeptTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
